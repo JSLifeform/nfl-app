@@ -27,7 +27,7 @@ class App extends Component {
 
 // fetches data from MySportsFeed API
 async callData(){
-  const encodedString = btoa("" + ":" + "Irulej00!")
+  const encodedString = btoa("" + ":" + "")
   console.log(encodedString)
   console.log(atob(encodedString))
   await fetch("https://api.mysportsfeeds.com/v1.2/pull/nfl/current/overall_team_standings.json", {
