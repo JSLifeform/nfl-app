@@ -12,7 +12,7 @@ class App extends Component {
           isFetching : false,
           teamData : ['1', '2', 'test'],
           parseData : [],
-          players: {
+          
             ezra: {name: "ezra", wins: 0, 
               teams: ["Patriots", "Bears", "Vikings", "Titans", "Jets", "Bengals"]},
             adam: {name: "adam", wins: 0, 
@@ -23,11 +23,10 @@ class App extends Component {
               teams: ["Eagles", "Chargers", "Seahawks", "49ers", "Colts", "Giants"]},
             tim: {name: "tim", wins: 0,  
               teams: ["Saints", "Browns", "Jaguars", "Texans", "Buccaneers", "Raiders"]}
-          }
+          
       };
     this.callData = this.callData.bind(this);
     this.showData = this.showData.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
   async showData() {
@@ -35,12 +34,7 @@ class App extends Component {
     // destructs this.state for future setState
     let updateState = Object.assign({}, this.state)
 
-    const playerList = [
-      this.state.players.ezra, 
-      this.state.players.adam, 
-      this.state.players.theo, 
-      this.state.players.john, 
-      this.state.players.tim]
+    const playerList = [this.state.ezra, this.state.adam, this.state.theo, this.state.john, this.state.tim]
 
     playerList.forEach((player) => {
       // calls in player teams and corresponding setState name for each player
@@ -62,9 +56,10 @@ class App extends Component {
         sumWins(key, value);
       }
       // updates wins in updateState
-      updateState.players[player.name].wins = counter
-      console.log(updateState.players[player.name].name)
-      console.log(updateState.players[player.name].wins)     
+      updateState[player.name].wins = counter
+      console.log(updateState[player.name].wins)
+      console.log(updateState)
+      console.log(this.state)      
     })
     //sets state to updateState
     this.setState(updateState)
@@ -75,7 +70,7 @@ class App extends Component {
   // fetches data from MySportsFeed API
   async callData(){
     // DO NOT FORGET TO ADD AND REMOVE API KEY AND PASSWORD WHEN WORKING ON THIS!!!!
-    const encodedString = btoa("" + "")
+    const encodedString = btoa("7b507641-4ec5-426e-a178-64cf56:" + "G3t!nH3r3")
     console.log(encodedString)
     console.log(atob(encodedString))
     await fetch("https://api.mysportsfeeds.com/v1.2/pull/nfl/current/overall_team_standings.json", {
@@ -105,21 +100,6 @@ class App extends Component {
     })
   }
 
-  async componentDidMount(){
-
-    const displayTeams = () => {
-      console.log(this)
-    }
-
-    const playerSelect = document.querySelectorAll(".playerselector")
-    playerSelect.forEach(pSelect => pSelect.addEventListener('click', displayTeams))
-    
-  }
-
-  handleClick() {
-
-  }
-
 
   render() {
     if (this.state.isFetching === true) {
@@ -135,7 +115,7 @@ class App extends Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-          <Players players={this.state.players}/>
+          <Players players={this.state}/>
           <p>
             <button onClick={this.callData} >Fetch</button>
             <button onClick={this.showData} >Display</button>
